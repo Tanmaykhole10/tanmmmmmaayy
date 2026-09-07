@@ -10,7 +10,7 @@ import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { products, type Product } from "@/data/site";
 
-const SITE_URL = "https://laxmi-world-connect.lovable.app";
+const SITE_URL = "https://www.laxmikantworldlink.com";
 
 const title = "Laxmikant Worldlink — Quality Food Products";
 const description =
@@ -25,10 +25,10 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: title },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://laxmi-world-connect.lovable.app/" },
+      { property: "og:url", content: `${SITE_URL}/` },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "https://laxmi-world-connect.lovable.app/" }],
+    links: [{ rel: "canonical", href: `${SITE_URL}/` }],
     scripts: [
       {
         type: "application/ld+json",

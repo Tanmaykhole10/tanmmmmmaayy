@@ -47,21 +47,21 @@ export function ProductCard({
           </span>
         </div>
 
-        <motion.img
-          src={product.image}
-          alt={`${product.name} pack by Laxmikant Worldlink`}
-          width={620}
-          height={720}
-          loading="lazy"
-          animate={reduced ? {} : { y: [0, -10, 0] }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: index * 0.4,
-          }}
-          className="relative mx-auto mt-5 h-64 w-auto object-contain transition-transform duration-700 ease-out group-hover:scale-[1.07] sm:h-72"
-        />
+        <div className="relative mx-auto mt-5 h-64 w-full overflow-hidden rounded-md sm:h-72">
+          <motion.img
+            src={product.image}
+            alt={`${product.name} pack by Laxmikant Worldlink`}
+            loading="lazy"
+            animate={reduced ? {} : { y: [0, -8, 0] }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: index * 0.4,
+            }}
+            className="absolute inset-0 m-auto h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.07]"
+          />
+        </div>
       </div>
 
 

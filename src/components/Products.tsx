@@ -22,15 +22,25 @@ export function Products({ onEnquire }: { onEnquire: (product: Product) => void 
         />
 
         <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:gap-10">
-          {products.map((product, i) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              index={i}
-              onView={setSelected}
-              onEnquire={onEnquire}
-            />
-          ))}
+          {
+            // Ensure tamarind pulp appears on the left and red onion on the right
+            // by explicitly ordering these two products if present.
+            (() => {
+              const tam = products.find((p) => p.id === "tamarind-pulp");
+              const oni = products.find((p) => p.id === "red-onion-powder");
+              const others = products.filter((p) => p.id !== "tamarind-pulp" && p.id !== "red-onion-powder");
+              const ordered = [tam, oni, ...others].filter(Boolean) as Product[];
+              return ordered.map((product, i) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  index={i}
+                  onView={setSelected}
+                  onEnquire={onEnquire}
+                />
+              ));
+            })()
+          }
         </div>
       </div>
 

@@ -1,19 +1,23 @@
-import logoLight from "@/assets/logo_official.png.asset.json";
-import logoDark from "@/assets/logo_dark.png.asset.json";
-import logoSymbol from "@/assets/logo_symbol.png.asset.json";
-import onion from "@/assets/product-onion.asset.json";
-import tamarind from "@/assets/product-tamarind.asset.json";
-import hero from "@/assets/hero-globe.png.asset.json";
-import about from "@/assets/about-plain.jpg.asset.json";
-import trust from "@/assets/trust.jpg.asset.json";
+// Use public folder images so local/deployed site serves them directly.
+// Drop your real image files into `public/images/` with these names.
+import logoOfficial from "/images/logo_official.svg";
+import logoLight from "/images/logo_light.png";
+import logoDark from "/images/logo_dark.png";
+import logoSymbol from "/images/logo_symbol.png";
+import onion from "/images/product-onion.png";
+import tamarind from "/images/product-tamarind.png";
+import hero from "/images/hero.jpg";
+import about from "/images/about.jpg";
+import trust from "/images/trust.jpg";
 
 export const images = {
-  logoLight: logoLight.url,
-  logoDark: logoDark.url,
-  logoSymbol: logoSymbol.url,
-  hero: hero.url,
-  about: about.url,
-  trust: trust.url,
+  logoOfficial,
+  logoLight,
+  logoDark,
+  logoSymbol,
+  hero,
+  about,
+  trust,
 };
 
 
@@ -44,7 +48,7 @@ export const products: Product[] = [
     id: "tamarind-pulp",
     name: "Premium Tamarind Pulp",
     category: "Ready-to-use pulp",
-    image: tamarind.url,
+    image: tamarind,
     short: "Ready-to-use tamarind pulp with a consistent, rich natural taste.",
     description:
       "Our Premium Tamarind Pulp is prepared for kitchens and food businesses that need a dependable, consistent tamarind base. It is ready to use straight from the pack, with no artificial colours added.",
@@ -66,7 +70,7 @@ export const products: Product[] = [
     id: "red-onion-powder",
     name: "Red Onion Powder",
     category: "Dehydrated powder",
-    image: onion.url,
+    image: onion,
     short: "Pure, natural and flavourful red onion powder for everyday cooking.",
     description:
       "Red Onion Powder made from quality red onions, hygienically processed and packed to retain natural aroma and taste. No artificial flavouring or colour is added.",
