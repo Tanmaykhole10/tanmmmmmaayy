@@ -1,11 +1,25 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { SectionHeading } from "@/components/Reveal";
 import { ProductCard } from "@/components/ProductCard";
-import { ProductModal } from "@/components/ProductModal";
+import { ProductModal, type ClickOrigin } from "@/components/ProductModal";
 import { products, type Product } from "@/data/site";
 
 export function Products({ onEnquire }: { onEnquire: (product: Product) => void }) {
   const [selected, setSelected] = useState<Product | null>(null);
+  const [origin, setOrigin] = useState<ClickOrigin>(null);
+
+  // Tamarind pulp first and red onion second, then the rest
+  const ordered = useMemo(() => {
+    const tam = products.find((p) => p.id === "tamarind-pulp");
+    const oni = products.find((p) => p.id === "red-onion-powder");
+    const others = products.filter((p) => p.id !== "tamarind-pulp" && p.id !== "red-onion-powder");
+    return [tam, oni, ...others].filter(Boolean) as Product[];
+  }, []);
+
+  const openProduct = (product: Product, from: ClickOrigin) => {
+    setOrigin(from);
+    setSelected(product);
+  };
 
   const enquire = (product: Product) => {
     setSelected(null);
@@ -22,30 +36,23 @@ export function Products({ onEnquire }: { onEnquire: (product: Product) => void 
         />
 
         <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:gap-10">
-          {
-            // Ensure tamarind pulp appears on the left and red onion on the right
-            // by explicitly ordering these two products if present.
-            (() => {
-              const tam = products.find((p) => p.id === "tamarind-pulp");
-              const oni = products.find((p) => p.id === "red-onion-powder");
-              const others = products.filter((p) => p.id !== "tamarind-pulp" && p.id !== "red-onion-powder");
-              const ordered = [tam, oni, ...others].filter(Boolean) as Product[];
-              return ordered.map((product, i) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  index={i}
-                  onView={setSelected}
-                  onEnquire={onEnquire}
-                />
-              ));
-            })()
-          }
+          {ordered.map((product, i) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              index={i}
+              onView={openProduct}
+              onEnquire={onEnquire}
+            />
+          ))}
         </div>
       </div>
 
       <ProductModal
         product={selected}
+        products={ordered}
+        origin={origin}
+        onChange={setSelected}
         onClose={() => setSelected(null)}
         onEnquire={enquire}
       />

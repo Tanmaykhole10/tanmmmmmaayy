@@ -4,19 +4,64 @@ import {
   Mail,
   MapPin,
   MessageCircle,
-  Clock,
-  Map as MapIcon,
   ArrowUpRight,
 } from "lucide-react";
 import { Reveal, SectionHeading } from "@/components/Reveal";
-import { company } from "@/data/site";
+import { EnquiryForm } from "@/components/EnquiryForm";
+import { company, type Product } from "@/data/site";
 
-export function Contact() {
+export function Contact({ enquiryProduct }: { enquiryProduct?: Product | null }) {
+  const link =
+    "underline-offset-4 transition-colors hover:text-gold-ink hover:underline focus-visible:text-gold-ink focus-visible:underline";
   const contactItems = [
-    { icon: Phone, label: "Phone", value: company.phones.join(" / ") },
-    { icon: Mail, label: "Email", value: company.email },
-    { icon: MessageCircle, label: "WhatsApp", value: company.whatsapp },
-    { icon: MapPin, label: "Address", value: company.address },
+    {
+      icon: Phone,
+      label: "Phone",
+      value: (
+        <>
+          {company.phones.map((phone, i) => (
+            <span key={phone}>
+              {i > 0 ? " / " : null}
+              <a href={`tel:${phone.replace(/\s/g, "")}`} className={link}>
+                {phone}
+              </a>
+            </span>
+          ))}
+        </>
+      ),
+    },
+    {
+      icon: Mail,
+      label: "Email",
+      value: (
+        <a href={`mailto:${company.email}`} className={link}>
+          {company.email}
+        </a>
+      ),
+    },
+    {
+      icon: MessageCircle,
+      label: "WhatsApp",
+      value: (
+        <a href={company.whatsappLink} target="_blank" rel="noopener noreferrer" className={link}>
+          {company.whatsapp}
+        </a>
+      ),
+    },
+    {
+      icon: MapPin,
+      label: "Address",
+      value: (
+        <a
+          href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(company.address)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={link}
+        >
+          {company.address}
+        </a>
+      ),
+    },
   ];
 
   return (
@@ -51,6 +96,23 @@ export function Contact() {
               </div>
             </motion.div>
           ))}
+        </div>
+
+        <div className="mt-12 grid gap-8 lg:grid-cols-2">
+          <Reveal>
+            <EnquiryForm product={enquiryProduct} />
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="h-full min-h-[22rem] overflow-hidden rounded-3xl border border-border/70 bg-card shadow-[var(--shadow-soft)]">
+              <iframe
+                title="Laxmikant Worldlink location on Google Maps"
+                src={company.mapEmbed}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="h-full min-h-[22rem] w-full border-0"
+              />
+            </div>
+          </Reveal>
         </div>
 
         <Reveal delay={0.1}>

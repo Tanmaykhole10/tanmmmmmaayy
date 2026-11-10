@@ -1,6 +1,6 @@
 import { Leaf, ShieldCheck, Handshake } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
-import { images } from "@/data/site";
+import { AboutShowcase } from "@/components/AboutShowcase";
 
 const pillars = [
   {
@@ -66,20 +66,7 @@ export function About() {
         </Reveal>
 
         <Reveal className="order-1 lg:order-2" y={40}>
-          <div className="relative">
-            <div
-              aria-hidden="true"
-              className="absolute -right-4 -top-4 hidden h-full w-full rounded-[2rem] border border-gold/35 sm:block"
-            />
-            <img
-              src={images.about}
-              alt="Red onion powder and tamarind pulp with fresh ingredients on a plain navy background"
-              width={1200}
-              height={1408}
-              loading="lazy"
-              className="relative h-[420px] w-full rounded-[2rem] object-cover shadow-[var(--shadow-lift)] sm:h-[560px]"
-            />
-          </div>
+          <AboutShowcase />
         </Reveal>
       </div>
     </section>

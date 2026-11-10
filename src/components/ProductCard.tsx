@@ -1,5 +1,8 @@
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
 import { ArrowUpRight, MessageSquare, Leaf, Sparkles } from "lucide-react";
+import type { MouseEvent as ReactMouseEvent } from "react";
+import { Magnetic } from "@/components/Magnetic";
+import { PowderParticles } from "@/components/PowderParticles";
 import type { Product } from "@/data/site";
 
 export function ProductCard({
@@ -10,13 +13,35 @@ export function ProductCard({
 }: {
   product: Product;
   index: number;
-  onView: (product: Product) => void;
+  onView: (product: Product, origin: { x: number; y: number }) => void;
   onEnquire: (product: Product) => void;
 }) {
   const reduced = useReducedMotion();
 
+  // 3D tilt that follows the pointer over the product image
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const spring = { stiffness: 180, damping: 18, mass: 0.4 };
+  const rotateY = useSpring(useTransform(mx, [-0.5, 0.5], [-9, 9]), spring);
+  const rotateX = useSpring(useTransform(my, [-0.5, 0.5], [9, -9]), spring);
+
+  const glowX = useTransform(mx, [-0.5, 0.5], [-70, 70]);
+  const glowY = useTransform(my, [-0.5, 0.5], [-70, 70]);
+
+  const onMove = (e: ReactMouseEvent<HTMLDivElement>) => {
+    if (reduced) return;
+    const r = e.currentTarget.getBoundingClientRect();
+    mx.set((e.clientX - r.left) / r.width - 0.5);
+    my.set((e.clientY - r.top) / r.height - 0.5);
+  };
+  const onLeave = () => {
+    mx.set(0);
+    my.set(0);
+  };
+
   return (
     <motion.article
+      id={`product-${product.id}`}
       initial={{ opacity: 0, y: 34 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
@@ -47,7 +72,18 @@ export function ProductCard({
           </span>
         </div>
 
-        <div className="relative mx-auto mt-5 flex h-64 w-full items-center justify-center overflow-hidden rounded-md sm:h-72 md:h-80">
+        <motion.div
+          onMouseMove={onMove}
+          onMouseLeave={onLeave}
+          style={reduced ? undefined : { rotateX, rotateY, transformPerspective: 900 }}
+          className="relative mx-auto mt-5 flex h-64 w-full items-center justify-center overflow-hidden rounded-md will-change-transform sm:h-72 md:h-80"
+        >
+          <motion.span
+            aria-hidden="true"
+            style={reduced ? undefined : { x: glowX, y: glowY }}
+            className="pointer-events-none absolute left-1/2 top-1/2 -ml-24 -mt-24 h-48 w-48 rounded-full bg-gold/35 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100"
+          />
+          <PowderParticles productId={product.id} />
           <motion.img
             src={product.image}
             alt={`${product.name} pack by Laxmikant Worldlink`}
@@ -59,9 +95,9 @@ export function ProductCard({
               ease: "easeInOut",
               delay: index * 0.4,
             }}
-            className="mx-auto h-full w-auto max-h-full max-w-[92%] object-contain transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+            className="mx-auto h-[82%] w-auto max-w-[90%] object-contain transition-transform duration-700 ease-out group-hover:-translate-y-1 group-hover:scale-[1.04]"
           />
-        </div>
+        </motion.div>
       </div>
 
 
@@ -90,8 +126,11 @@ export function ProductCard({
         <div className="mt-7 flex flex-wrap gap-3">
           <button
             type="button"
-            onClick={() => onView(product)}
-            className="group/btn inline-flex items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-all duration-300 hover:bg-navy-deep"
+            onClick={(e) => {
+              const r = e.currentTarget.getBoundingClientRect();
+              onView(product, { x: r.left + r.width / 2, y: r.top + r.height / 2 });
+            }}
+            className="lift-btn group/btn inline-flex items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-all duration-300 hover:bg-navy-deep"
           >
             View Details
             <ArrowUpRight
@@ -99,14 +138,16 @@ export function ProductCard({
               className="transition-transform duration-300 group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5"
             />
           </button>
-          <button
-            type="button"
-            onClick={() => onEnquire(product)}
-            className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 px-5 py-2.5 text-sm font-medium text-primary transition-all duration-300 hover:border-gold hover:bg-secondary"
-          >
-            <MessageSquare size={15} />
-            Enquire Now
-          </button>
+          <Magnetic>
+            <button
+              type="button"
+              onClick={() => onEnquire(product)}
+              className="lift-btn inline-flex items-center gap-1.5 rounded-full border border-primary/20 px-5 py-2.5 text-sm font-medium text-primary transition-all duration-300 hover:border-gold hover:bg-secondary"
+            >
+              <MessageSquare size={15} />
+              Enquire Now
+            </button>
+          </Magnetic>
         </div>
       </div>
     </motion.article>

@@ -31,3 +31,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment variables (keys stay private)
+.env
+.env.*
+!.env.example

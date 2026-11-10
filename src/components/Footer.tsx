@@ -58,7 +58,6 @@ export function Footer() {
                   </button>
                 </li>
               ))}
-              <li className="text-cream/40">[Additional Product]</li>
             </ul>
           </div>
 

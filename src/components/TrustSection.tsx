@@ -32,26 +32,41 @@ export function TrustSection() {
         width={1600}
         height={1100}
         loading="lazy"
+        onError={(e) => (e.currentTarget.style.display = "none")}
         className="absolute inset-0 h-full w-full object-cover opacity-40"
       />
       <div className="absolute inset-0 bg-gradient-to-br from-navy-deep via-navy-deep/85 to-navy" />
 
       <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-5 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20 lg:px-8">
         <Reveal>
-          <div className="glass-panel rounded-[2rem] p-8 sm:p-10">
-            <img
-              src={images.logoLight}
-              alt="Laxmikant Worldlink logo"
-              width={856}
-              height={752}
-              loading="lazy"
-              className="h-24 w-auto rounded-xl"
-            />
-            <p className="mt-6 text-sm leading-relaxed text-primary/75">
+          <div className="rounded-[2rem] border border-gold/30 bg-navy-deep/60 p-8 shadow-[var(--shadow-lift)] backdrop-blur-md sm:p-10">
+            <div className="flex flex-wrap items-center gap-3 sm:gap-5">
+              <img
+                src={images.logoMark}
+                alt=""
+                width={480}
+                height={407}
+                loading="lazy"
+                className="h-16 w-auto drop-shadow-[0_8px_24px_rgba(236,72,153,0.3)] sm:h-24"
+              />
+              <div className="leading-none">
+                <p
+                  style={{ fontFamily: "var(--font-display)" }}
+                  className="text-2xl font-semibold tracking-[0.14em] text-cream sm:text-4xl"
+                >
+                  LAXMIKANT
+                </p>
+                <p className="mt-2 flex items-center gap-3 text-[0.65rem] font-medium tracking-[0.46em] text-gold sm:text-sm">
+                  <span aria-hidden="true" className="h-px w-6 bg-gold/70" />
+                  WORLDLINK
+                </p>
+              </div>
+            </div>
+            <p className="mt-7 text-sm leading-relaxed text-cream/75">
               Hygienically prepared. No artificial flavouring. We are flexible to provide
               white label packaging.
             </p>
-            <p className="mt-4 font-display text-2xl text-primary">
+            <p className="mt-4 font-display text-2xl text-gold">
               || विश्वास : एवं आधार : ||
             </p>
           </div>
@@ -59,7 +74,7 @@ export function TrustSection() {
 
         <div>
           <Reveal>
-            <p className="eyebrow">Built On Trust</p>
+            <p className="eyebrow-dark">Built On Trust</p>
             <h2 className="mt-3 text-3xl leading-tight text-cream sm:text-4xl md:text-5xl">
               A business relationship you can rely on
             </h2>
@@ -74,7 +89,7 @@ export function TrustSection() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.55, delay: i * 0.09 }}
-                className="flex gap-4 rounded-2xl border border-cream/10 bg-cream/[0.04] p-5 transition-colors duration-300 hover:border-gold/40"
+                className="flex gap-4 rounded-2xl border border-cream/10 bg-cream/[0.04] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-gold/40 hover:bg-cream/[0.07]"
               >
                 <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-gold/15 text-gold">
                   <Check size={16} />

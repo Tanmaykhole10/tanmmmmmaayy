@@ -1,16 +1,34 @@
-// @lovable.dev/vite-tanstack-config already includes the following — do NOT add them manually
-// or the app will break with duplicate plugins:
-//   - TanStack devtools (dev-only, first), tanstackStart, viteReact, tailwindcss, tsConfigPaths,
-//     nitro (build-only using cloudflare as a default target), VITE_* env injection, @ path alias,
-//     React/TanStack dedupe, error logger plugins, and sandbox detection (port/host/strictPort).
-// You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
-import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import { defineConfig } from "vite";
+import { tanstackStart } from "@tanstack/react-start/plugin/vite";
+import viteReact from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
+import tsconfigPaths from "vite-tsconfig-paths";
+import { nitro } from "nitro/vite";
 
-export default defineConfig({
-  nitro: { preset: "vercel" },
-  tanstackStart: {
-    // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-    // nitro/vite builds from this
-    server: { entry: "server" },
+// Plain Vite config (no third-party wrapper).
+// - TanStack Start uses src/server.ts as the server entry.
+// - Nitro only runs for production builds and targets Vercel.
+//   To host somewhere else, change `preset` (e.g. "node-server", "netlify").
+export default defineConfig(({ command }) => ({
+  plugins: [
+    tailwindcss(),
+    tsconfigPaths(),
+    tanstackStart({
+      server: { entry: "server" },
+    }),
+    ...(command === "build" ? [nitro()] : []),
+    viteReact(),
+  ],
+  nitro: {
+    preset: "vercel",
+    routeRules: {
+      // Images keep the same file names, so cache them for 30 days and refresh quietly after that
+      "/images/**": {
+        headers: { "cache-control": "public, max-age=2592000, stale-while-revalidate=86400" },
+      },
+    },
   },
-});
+  resolve: {
+    dedupe: ["react", "react-dom", "@tanstack/react-router", "@tanstack/react-start"],
+  },
+}));

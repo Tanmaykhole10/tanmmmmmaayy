@@ -43,7 +43,7 @@ export function SectionHeading({
         align === "center" ? "mx-auto max-w-2xl text-center" : "max-w-2xl text-left"
       }
     >
-      <p className="eyebrow">{eyebrow}</p>
+      <p className={tone === "dark" ? "eyebrow-dark" : "eyebrow"}>{eyebrow}</p>
       <h2
         className={`mt-3 text-3xl leading-tight sm:text-4xl md:text-5xl ${
           tone === "dark" ? "text-cream" : "text-primary"

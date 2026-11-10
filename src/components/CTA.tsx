@@ -22,7 +22,7 @@ export function CTA() {
         />
 
         <Reveal>
-          <p className="eyebrow">Get In Touch</p>
+          <p className="eyebrow-dark">Get In Touch</p>
           <h2 className="mx-auto mt-4 max-w-2xl text-3xl leading-tight text-cream sm:text-4xl md:text-5xl">
             Let's build a strong business connection
           </h2>
@@ -37,7 +37,7 @@ export function CTA() {
                 .getElementById("contact")
                 ?.scrollIntoView({ behavior: "smooth", block: "start" })
             }
-            className="group mt-9 inline-flex items-center gap-2 rounded-full bg-[image:var(--gradient-gold)] px-8 py-3.5 text-sm font-semibold text-navy-deep transition-transform duration-300 hover:scale-[1.03]"
+            className="lift-btn group mt-9 inline-flex items-center gap-2 rounded-full bg-[image:var(--gradient-gold)] px-8 py-3.5 text-sm font-semibold text-navy-deep transition-transform duration-300 hover:scale-[1.03]"
           >
             Contact Us
             <ArrowRight

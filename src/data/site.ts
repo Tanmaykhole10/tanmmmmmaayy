@@ -1,24 +1,24 @@
 // Use public folder images so local/deployed site serves them directly.
 // Drop your real image files into `public/images/` with these names.
 import logoOfficial from "/images/logo_official.svg";
-import logoLight from "/images/logo_light.png";
 import logoDark from "/images/logo_dark.png";
 import logoSymbol from "/images/logo_symbol.png";
-import onion from "/images/product-onion.png";
-import tamarind from "/images/product-tamarind.png";
-import whiteOnion from "/images/white-onion-powder.png";
-import gingerPowder from "/images/ginger-powder.png";
-import garlicPowder from "/images/garlic-powder.png";
-import corianderPowder from "/images/coriander-powder.png";
+import logoMark from "/images/logo-symbol.webp";
+import onion from "/images/product-onion.webp";
+import tamarind from "/images/product-tamarind.webp";
+import whiteOnion from "/images/white-onion-powder.webp";
+import gingerPowder from "/images/ginger-powder.webp";
+import garlicPowder from "/images/garlic-powder.webp";
+import corianderPowder from "/images/coriander-powder.webp";
 import hero from "/images/hero.jpg";
-import about from "/images/about.jpg";
+import about from "/images/about.webp";
 import trust from "/images/trust.jpg";
 
 export const images = {
   logoOfficial,
-  logoLight,
   logoDark,
   logoSymbol,
+  logoMark,
   hero,
   about,
   trust,
@@ -32,8 +32,22 @@ export const company = {
   address:
     "Shiv Kalpataru Arcade Building No. 2, Room No. 302, Plot No. 1, Sector 17, Kamothe, Navi Mumbai 410209",
   whatsapp: "+91 89763 23628",
-  hours: "[Business Hours]",
-  maps: "[Google Maps Location]",
+  // Click-to-chat link (country code + number, digits only)
+  whatsappLink:
+    "https://wa.me/918976323628?text=" +
+    encodeURIComponent(
+      "Hello Laxmikant Worldlink, I would like to enquire about your products.",
+    ),
+  // Enquiry form is sent through Web3Forms. The access key is NOT stored here:
+  // put it in a .env file as VITE_WEB3FORMS_KEY (see .env.example).
+  formEndpoint: "https://api.web3forms.com/submit",
+  // Map embed (no API key needed)
+  mapEmbed:
+    "https://www.google.com/maps?q=" +
+    encodeURIComponent(
+      "Shiv Kalpataru Arcade, Sector 17, Kamothe, Navi Mumbai 410209",
+    ) +
+    "&output=embed",
 };
 
 export type Product = {
@@ -192,5 +206,6 @@ export const navLinks = [
   { id: "about", label: "About Us" },
   { id: "products", label: "Products" },
   { id: "why-us", label: "Why Us" },
+  { id: "process", label: "Process" },
   { id: "contact", label: "Contact" },
 ];
